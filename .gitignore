@@ -1,10 +1,11 @@
 
+
 # Ignore Compiled Python files and other dummy files
 *.pyc
 *.log
 *.sample
 
-
-# Ignore the VSCode Cache Directories
+# Ignore the VSCode Directories
+*/.vscode
 XDG_CACHE_HOME
 **/*/XDG_CACHE_HOME
