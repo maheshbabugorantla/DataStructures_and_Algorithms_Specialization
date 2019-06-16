@@ -38,6 +38,10 @@ int fibonacci_sum_last_digit_fast(long long n) {
         return n;
     }
 
+    if (n == 2) {
+        return 2;
+    }
+
     // int pisano_period_10 = get_pisano_period_length(10);
     // pisano_period_10 is 60
 
@@ -54,7 +58,7 @@ int fibonacci_sum_last_digit_fast(long long n) {
 
     int fib_number = 1;
 
-    for(long long i = 2; i < n; i++) {
+    for(long long i = 2; i <= n; i++) {
         fib_number = (prev % 10 + next % 10) % 10;
         prev = next;
         next = fib_number;
