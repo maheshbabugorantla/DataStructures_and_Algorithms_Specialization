@@ -31,16 +31,35 @@ int get_fibonacci_partial_sum_fast(long long from, long long to) {
     // S(n) = Fn+2 - 1
     // S(n) - S(m-1) = Fn+2 - Fm+1
 
-    if (from == 0 && to == 0) {
-        return 0;
+    if (from == 0 && to <= 1) {
+        return from + to;
+    }
+
+
+    int prev = 0;
+    int next = 1;
+
+    if (from == 0) {
+        to = (to + 2) % 60;
+
+        int fibo_number = 1;
+
+        for(int i = 2; i <= to; i++) {
+            fibo_number = (prev % 10 + next % 10) % 10;
+            prev = next;
+            next = fibo_number;
+        }
+
+        if (fibo_number == 0) {
+            return 9;
+        }
+
+        return (fibo_number % 10) - 1;
     }
 
     // Fm+1 and Fn+2
     int F_m1 = 0;
     int F_n2 = 0;
-
-    int prev = 0;
-    int next = 1;
 
     for(int i = 2; i < from + 2; i++) {
         F_m1 = (prev % 10 + next % 10) % 10;
@@ -58,11 +77,7 @@ int get_fibonacci_partial_sum_fast(long long from, long long to) {
 
     // cout << "Fn+2 = " << F_n2 << endl;
 
-    if (F_n2 < F_m1) {
-        F_n2 = 10 + F_n2;
-    }
-
-    return (F_n2 - F_m1) % 10;
+    return (F_n2 > F_m1) ? (F_n2 - F_m1) % 10 : ((F_n2 + 10) - F_m1) % 10;
 }
 
 int main() {
