@@ -23,6 +23,28 @@ long long get_fibonacci_partial_sum_naive(long long from, long long to) {
     return sum % 10;
 }
 
+int get_last_digit_of_fibonacci_sum(long long n) {
+
+    int prev = 0;
+    int next = 1;
+
+    n = (n + 2) % 60;
+
+    int fibo_number = 1;
+
+    for(int i = 2; i <= n; i++) {
+        fibo_number = (prev % 10 + next % 10) % 10;
+        prev = next;
+        next = fibo_number;
+    }
+
+    if (fibo_number == 0) {
+        return 9;
+    }
+
+    return (fibo_number % 10) - 1;
+}
+
 int get_fibonacci_partial_sum_fast(long long from, long long to) {
 
     // If S(n) is the sum of fibonacci numbers from F0 to Fn
@@ -31,53 +53,13 @@ int get_fibonacci_partial_sum_fast(long long from, long long to) {
     // S(n) = Fn+2 - 1
     // S(n) - S(m-1) = Fn+2 - Fm+1
 
-    if (from == 0 && to <= 1) {
-        return from + to;
-    }
+    int last_digit_to = get_last_digit_of_fibonacci_sum(to);
+    int last_digit_from = get_last_digit_of_fibonacci_sum(from - 1);
 
+    // cout << "Last Digit of From: " << last_digit_from << endl;
+    // cout << "Last Digit of To: " << last_digit_to << endl;
 
-    int prev = 0;
-    int next = 1;
-
-    if (from == 0) {
-        to = (to + 2) % 60;
-
-        int fibo_number = 1;
-
-        for(int i = 2; i <= to; i++) {
-            fibo_number = (prev % 10 + next % 10) % 10;
-            prev = next;
-            next = fibo_number;
-        }
-
-        if (fibo_number == 0) {
-            return 9;
-        }
-
-        return (fibo_number % 10) - 1;
-    }
-
-    // Fm+1 and Fn+2
-    int F_m1 = 0;
-    int F_n2 = 0;
-
-    for(int i = 2; i < from + 2; i++) {
-        F_m1 = (prev % 10 + next % 10) % 10;
-        prev = next;
-        next = F_m1;
-    }
-
-    // cout << "Fm+1 = " << F_m1 << endl;
-
-    for(int i = from + 2; i < to+3; i++) {
-        F_n2 = (prev % 10 + next % 10) % 10;
-        prev = next;
-        next = F_n2;
-    }
-
-    // cout << "Fn+2 = " << F_n2 << endl;
-
-    return (F_n2 > F_m1) ? (F_n2 - F_m1) % 10 : ((F_n2 + 10) - F_m1) % 10;
+    return (last_digit_to > last_digit_from) ? (last_digit_to - last_digit_from) % 10 : ((last_digit_to + 10) - last_digit_from) % 10;
 }
 
 int main() {
