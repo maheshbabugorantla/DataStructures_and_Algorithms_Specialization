@@ -34,6 +34,10 @@ int get_pisano_period_length(int n) {
 
 int fibonacci_sum_last_digit_fast(long long n) {
 
+    if (n <= 1) {
+        return n;
+    }
+
     // int pisano_period_10 = get_pisano_period_length(10);
     // pisano_period_10 is 60
 
