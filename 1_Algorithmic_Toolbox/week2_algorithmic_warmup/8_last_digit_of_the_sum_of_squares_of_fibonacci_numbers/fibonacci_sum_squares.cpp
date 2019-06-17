@@ -39,12 +39,12 @@ int fibonacci_sum_squares_fast(long long n) {
     // Fn = S(n-2) + 1
     // S(n) Sum of first n Fibonacci Numbers
 
-    n = n % 60; // n = (n-2 + 2)%60
+    n = n % 60; // n = (n-2 + 2) % 60
 
     int prev = 0;
     int next = 1;
 
-    int sum_n_2 = 1;
+    int sum_n_2 = 0;
 
     for(int i = 2; i <= n; i++) {
         sum_n_2 = ((prev % 10) + (next % 10)) % 10;
