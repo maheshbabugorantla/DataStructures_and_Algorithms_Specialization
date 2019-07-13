@@ -2,3 +2,8 @@
 .vscode/
 
 venv/
+
+1_binary_search/binary_search
+2_majority_element/boyer-moore-majority-vote.py
+2_majority_element/majority_element
+3_improving_quicksort/quicksort.py
