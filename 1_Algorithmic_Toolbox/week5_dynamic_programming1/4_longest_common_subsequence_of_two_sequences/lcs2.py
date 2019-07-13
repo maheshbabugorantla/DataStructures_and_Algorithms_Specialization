@@ -3,8 +3,16 @@
 import sys
 
 def lcs2(a, b):
-    #write your code here
-    return min(len(a), len(b))
+
+    min_ed = [[0] * (len(a)+1) for _ in range(len(b)+1)]
+
+    for row in range(1, len(b)+1):
+        for col in range(1, len(a)+1):
+            if a[col - 1] == b[row - 1]:
+                min_ed[row][col] = min_ed[row - 1][col - 1] + 1
+            else:
+                min_ed[row][col] = max(min_ed[row][col-1], min_ed[row-1][col])
+    return min_ed[len(b)][len(a)]
 
 if __name__ == '__main__':
     input = sys.stdin.read()
