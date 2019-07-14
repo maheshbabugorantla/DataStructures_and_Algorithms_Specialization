@@ -1,4 +1,6 @@
 
+# Ignore all the python virtual environment directories
+**/*/*env/
 
 # Ignore Compiled Python files and other dummy files
 *.pyc
@@ -6,6 +8,7 @@
 *.sample
 
 # Ignore the VSCode Directories
-*/.vscode
 XDG_CACHE_HOME
 **/*/XDG_CACHE_HOME
+**/*/.vscode/
+
