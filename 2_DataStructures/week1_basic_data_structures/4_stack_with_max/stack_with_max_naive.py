@@ -1,34 +1,70 @@
-#python3
+# python3
+
 import sys
 
-class StackWithMax():
-    def __init__(self):
-        self.__stack = []
+class Stack(object):
 
-    def Push(self, a):
-        self.__stack.append(a)
+    def __init__(self, datatype=None):
+        self.datatype = datatype
+        self.stack = []
 
-    def Pop(self):
-        assert(len(self.__stack))
-        self.__stack.pop()
+    def __len__(self):
+        return len(self.stack)
 
-    def Max(self):
-        assert(len(self.__stack))
-        return max(self.__stack)
+    def push(self, element):
+        if not isinstance(element, self.datatype):
+            raise TypeError("'element' should be of {}".format(self.datatype))
+        self.stack.append(element)
+
+    def pop(self):
+        if self.stack:
+            return self.stack.pop()
+
+    def peek(self):
+        if self.stack:
+            return self.stack[-1]
 
 
-if __name__ == '__main__':
-    stack = StackWithMax()
+class Item:
+    def __init__(self, value):
+        self.value = value
 
+
+class MaxStack:
+
+    def __init__(self, datatype=None):
+        self.stack = Stack(datatype)
+
+    def push(self, item):
+        if len(self.stack) == 0:
+            self.stack.push([item, item])
+        else:
+            self.stack.push([item, max(item, self.peek()[1])])
+
+    def pop(self):
+        return self.stack.pop()
+
+    def peek(self):
+        return self.stack.peek()
+
+    def getMax(self):
+        return self.peek()[1]
+
+def main():
+    stack = MaxStack(datatype=list)
     num_queries = int(sys.stdin.readline())
     for _ in range(num_queries):
         query = sys.stdin.readline().split()
 
         if query[0] == "push":
-            stack.Push(int(query[1]))
+            stack.push(int(query[1]))
         elif query[0] == "pop":
-            stack.Pop()
+            stack.pop()
         elif query[0] == "max":
-            print(stack.Max())
+            print(stack.getMax())
         else:
             assert(0)
+
+
+if __name__ == "__main__":
+    main()
