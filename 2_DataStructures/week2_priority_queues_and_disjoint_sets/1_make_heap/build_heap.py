@@ -1,6 +1,52 @@
 # python3
 
 
+def parent(i):
+    assert isinstance(i, int)
+    return (i - 1)//2
+
+
+def left_child(i):
+    assert isinstance(i, int)
+    return 2*i + 1
+
+
+def right_child(i):
+    assert isinstance(i, int)
+    return 2*i + 2
+
+
+def sift_down_swaps(data, i, swaps):
+    min_index = i
+
+    size = len(data)
+
+    l_child = left_child(i)
+
+    if l_child < size and data[l_child] < data[min_index]:
+        min_index = l_child
+
+    r_child = right_child(i)
+
+    if r_child < size and data[r_child] < data[min_index]:
+        min_index = r_child
+
+    if i != min_index:
+        data[i], data[min_index] = data[min_index], data[i]
+        swaps.append((i, min_index))
+        swaps = sift_down_swaps(data, min_index, swaps)
+    return swaps
+
+
+def min_heap_swaps(data):
+
+    swaps = []
+    n = len(data)
+    for i in range(n//2, -1, -1):
+        swaps = sift_down_swaps(data, i, swaps)
+    return swaps
+
+
 def build_heap(data):
     """Build a heap from ``data`` inplace.
 
@@ -26,7 +72,7 @@ def main():
     data = list(map(int, input().split()))
     assert len(data) == n
 
-    swaps = build_heap(data)
+    swaps = min_heap_swaps(data)
 
     print(len(swaps))
     for i, j in swaps:
