@@ -1,20 +1,38 @@
 # python3
 
-from collections import namedtuple
-
-AssignedJob = namedtuple("AssignedJob", ["worker", "started_at"])
+import heapq
 
 
-def assign_jobs(n_workers, jobs):
-    # TODO: replace this code with a faster algorithm.
-    result = []
-    next_free_time = [0] * n_workers
-    for job in jobs:
-        next_worker = min(range(n_workers), key=lambda w: next_free_time[w])
-        result.append(AssignedJob(next_worker, next_free_time[next_worker]))
-        next_free_time[next_worker] += job
+class workerThread:
 
-    return result
+    def __init__(self, thread_no, released_time=0):
+        self.thread_no = thread_no
+        self.released_time = released_time
+
+    def __lt__(self, free_worker_thread):
+        assert isinstance(free_worker_thread, workerThread)
+        if self.released_time == free_worker_thread.released_time:
+            return self.thread_no < free_worker_thread.thread_no
+        return self.released_time < free_worker_thread.released_time
+
+    def __str__(self):
+        return "{} {}".format(self.thread_no, self.released_time)
+
+
+class JobQueue:
+
+    def __init__(self, n_workers, jobs):
+        self.n_workers = n_workers
+        self.workers = [workerThread(id) for id in range(n_workers)]
+        self.jobs = jobs
+
+    def schedule_jobs(self):
+
+        for job in self.jobs:
+            job_thread = heapq.heappop(self.workers)
+            yield str(job_thread)
+            job_thread.released_time += job
+            heapq.heappush(self.workers, job_thread)
 
 
 def main():
@@ -22,10 +40,11 @@ def main():
     jobs = list(map(int, input().split()))
     assert len(jobs) == n_jobs
 
-    assigned_jobs = assign_jobs(n_workers, jobs)
+    job_queue = JobQueue(n_workers, jobs)
+    assigned_jobs = job_queue.schedule_jobs()
 
     for job in assigned_jobs:
-        print(job.worker, job.started_at)
+        print(job)
 
 
 if __name__ == "__main__":
