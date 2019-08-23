@@ -16,32 +16,60 @@ class TreeOrders:
       self.left[i] = b
       self.right[i] = c
 
+
+  def _inOrder(self, root):
+      if root == -1:
+        return
+      self._inOrder(self.left[root])
+      self.result.append(self.key[root])
+      self._inOrder(self.right[root])
+
+
   def inOrder(self):
     self.result = []
     # Finish the implementation
     # You may need to add a new recursive method to do that
-                
-    return self.result
+    self._inOrder(0)
+    # print("In Order: {}".format(self.result))
+    return " ".join(map(str, self.result))
+
+
+  def _preOrder(self, root):
+    if root == -1:
+      return
+    self.result.append(self.key[root])
+    self._preOrder(self.left[root])
+    self._preOrder(self.right[root])
 
   def preOrder(self):
     self.result = []
     # Finish the implementation
     # You may need to add a new recursive method to do that
-                
-    return self.result
+    self._preOrder(0)
+    # print("Pre Order: {}".format(self.result))
+    return " ".join(map(str, self.result))
+
+  def _postOrder(self, root):
+    if root == -1:
+      return
+    self._postOrder(self.left[root])
+    self._postOrder(self.right[root])
+    self.result.append(self.key[root])
 
   def postOrder(self):
     self.result = []
     # Finish the implementation
     # You may need to add a new recursive method to do that
-                
-    return self.result
+    self._postOrder(0)
+    # print("Post Order: {}".format(self.result))
+    return " ".join(map(str, self.result))
+
 
 def main():
 	tree = TreeOrders()
 	tree.read()
-	print(" ".join(str(x) for x in tree.inOrder()))
-	print(" ".join(str(x) for x in tree.preOrder()))
-	print(" ".join(str(x) for x in tree.postOrder()))
+	print(tree.inOrder())
+	print(tree.preOrder())
+	print(tree.postOrder())
 
 threading.Thread(target=main).start()
