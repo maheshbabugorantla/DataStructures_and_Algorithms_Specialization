@@ -1,17 +1,35 @@
 #Uses python3
 
 import sys
-
-def dfs(adj, used, order, x):
-    #write your code here
-    pass
+from collections import deque
 
 
 def toposort(adj):
-    used = [0] * len(adj)
+    neighbors = [0] * len(adj)
     order = []
-    #write your code here
-    return order
+    
+    graph = [[] for _ in range(len(adj))]
+    queue = deque()
+
+    for course, pr in enumerate(adj):
+        for n in pr:
+            graph[n].append(course)
+        neighbors[course] = len(pr)
+        if neighbors[course] == 0:
+            queue.append(course)
+
+    completed_courses = set()
+    while queue:
+        course = queue.popleft()
+        if course not in completed_courses:
+            completed_courses.add(course)
+            order.append(course)
+            for neighbor in graph[course]:
+                neighbors[neighbor] -= 1
+                if neighbors[neighbor] == 0:
+                    queue.append(neighbor)
+    return order[::-1]
+
 
 if __name__ == '__main__':
     input = sys.stdin.read()
@@ -25,4 +43,3 @@ if __name__ == '__main__':
     order = toposort(adj)
     for x in order:
         print(x + 1, end=' ')
-

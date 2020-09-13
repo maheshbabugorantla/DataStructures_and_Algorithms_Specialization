@@ -2,8 +2,21 @@
 
 import sys
 
+from collections import deque
 
 def acyclic(adj):
+
+    for node in range(len(adj)):
+        queue = deque([node])
+        visited_nodes = set()
+        while queue:
+            _node = queue.popleft()
+            if _node in visited_nodes and _node == node:
+                return 1
+            if _node not in visited_nodes:
+                visited_nodes.add(_node)
+                for neighbor in adj[_node]:
+                    queue.append(neighbor)
     return 0
 
 if __name__ == '__main__':
