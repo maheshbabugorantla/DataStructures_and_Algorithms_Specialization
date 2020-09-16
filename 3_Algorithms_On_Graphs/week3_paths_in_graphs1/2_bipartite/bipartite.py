@@ -1,11 +1,29 @@
 #Uses python3
 
 import sys
-import queue
+from collections import deque
+
 
 def bipartite(adj):
     #write your code here
-    return -1
+    n = len(adj)
+    color_map = [-1] * n
+
+    for i in range(n):
+        if color_map[i] == -1:
+            queue = deque([i])
+            color_map[i] = 1
+            while queue:
+                node = queue.popleft()
+                nc = 1 - color_map[node]
+                for neighbor in adj[node]:
+                    if color_map[neighbor] == color_map[node]:
+                        return 0
+                    if color_map[neighbor] == -1:
+                        queue.append(neighbor)
+                        color_map[neighbor] = nc
+    return 1
+
 
 if __name__ == '__main__':
     input = sys.stdin.read()
