@@ -1,11 +1,24 @@
 #Uses python3
 
 import sys
-import queue
+from collections import deque
+
 
 def distance(adj, s, t):
     #write your code here
-    return -1
+    n = len(adj)
+    shortest_distances = [-1] * n
+    queue = deque([s])   
+    shortest_distances[s] = 0
+
+    while queue:
+        node = queue.popleft()
+        for neighbor in adj[node]:
+            if shortest_distances[neighbor] == -1:
+                shortest_distances[neighbor] = shortest_distances[node] + 1
+                queue.append(neighbor)
+
+    return shortest_distances[t]
 
 if __name__ == '__main__':
     input = sys.stdin.read()
