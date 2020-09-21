@@ -1,8 +1,6 @@
 # Uses python3
 
 import sys
-# from collections import deque
-from copy import deepcopy
 from heapq import heappop, heappush
 
 
